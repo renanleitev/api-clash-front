@@ -9,6 +9,26 @@ Projeto Clash Royale para exibir estatísticas e dados de jogadores e batalhas d
 
 ## Iniciando o projeto
 
+### Back-end:
+
+Clone o repositório de back-end:
+
+    git clone https://github.com/renanleitev/api-clash-royale.git
+
+Vá até a pasta clonada:
+
+    cd api-clash-royale
+
+Instale as dependências do projeto:
+
+    npm i
+
+Rode o código do back-end:
+
+    npm start
+
+### Front-end:
+
 Primeiro, faça a instalação das dependências:
 
     npm i

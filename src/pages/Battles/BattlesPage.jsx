@@ -1,21 +1,31 @@
 import { useEffect, useState, useMemo } from 'react';
 import {
+  Collapse,
+  IconButton,
   TableContainer,
   Table,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
+  Typography,
   Paper,
   TablePagination
 } from '@mui/material';
-import { VerticalContainer } from '../../config/GlobalStyle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {
+  VerticalContainer,
+  HorizontalContainer
+} from '../../config/GlobalStyle';
 import { getPlayersData } from '../../services/axios';
 import LoadingProgress from '../../components/Loading/LoadingProgress';
+import DeckList from '../../components/Deck/DeckList';
 
 export default function BattlesPage() {
   const [battlesData, setBattlesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   // Para procurar todos as batalhas ao carregar a página
   const fetchAllBattlesData = async () => {
@@ -50,6 +60,9 @@ export default function BattlesPage() {
     [battlesData, page, rowsPerPage]
   );
 
+  const fontSize = 'h6';
+  const iconWidth = '30px';
+
   return (
     <VerticalContainer style={{ padding: '4rem' }}>
       {isLoading ? (
@@ -57,41 +70,121 @@ export default function BattlesPage() {
       ) : (
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table
+              sx={{ minWidth: 650, '& > *': { borderBottom: 'unset' } }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
-                  <TableCell>Jogador 1 (J1)</TableCell>
-                  <TableCell>Jogador 2 (J2)</TableCell>
-                  <TableCell>TD J1</TableCell>
-                  <TableCell>TD J2</TableCell>
-                  <TableCell>Deck J1</TableCell>
-                  <TableCell>Deck J2</TableCell>
+                  <TableCell />
+                  <TableCell>Jogador 1</TableCell>
+                  <TableCell>Torres Destruídas</TableCell>
+                  <TableCell />
+                  <TableCell>Jogador 2</TableCell>
+                  <TableCell>Torres Destruídas</TableCell>
                   <TableCell>Vencedor</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {visibleBattles.map((battle) => (
-                  <TableRow
-                    key={battle._id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell>{battle.player1}</TableCell>
-                    <TableCell>{battle.player2}</TableCell>
-                    <TableCell>{battle.player1TowersDestroyed}</TableCell>
-                    <TableCell>{battle.player2TowersDestroyed}</TableCell>
-                    {/* TODO: Add links to decks page */}
-                    <TableCell>Deck J1</TableCell>
-                    <TableCell>Deck J2</TableCell>
-                    <TableCell>
-                      {battle.winner === 'player1'
-                        ? battle.player1
-                        : battle.player2}
-                    </TableCell>
-                  </TableRow>
+                  <>
+                    {/* Linha principal da tabela */}
+                    <TableRow
+                      key={battle._id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      {/* Para abrir a linha secundária da tabela */}
+                      <TableCell>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                          onClick={() => setOpen(!open)}
+                        >
+                          {open ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )}
+                        </IconButton>
+                      </TableCell>
+                      {/* Nome - Jogador 1 */}
+                      <TableCell>
+                        <Typography variant={fontSize}>
+                          {battle.player1}
+                        </Typography>
+                      </TableCell>
+                      {/* Número de Torres Destruídas - Jogador 1 */}
+                      <TableCell>
+                        <Typography variant={fontSize}>
+                          <HorizontalContainer
+                            style={{ justifyContent: 'flex-start' }}
+                          >
+                            {battle.player1TowersDestroyed}
+                            <img
+                              src="https://cdns3.royaleapi.com/cdn-cgi/image/w=64,h=64,format=auto/static/img/ui/crown-blue.png"
+                              width={iconWidth}
+                            />
+                          </HorizontalContainer>
+                        </Typography>
+                      </TableCell>
+                      {/* Imagem de Versus */}
+                      <TableCell>
+                        {' '}
+                        <img
+                          src="https://cdn.royaleapi.com/static/img/ui/battle.png?t=0c9253cbc"
+                          width={iconWidth}
+                        />
+                      </TableCell>
+                      {/* Nome - Jogador 2 */}
+                      <TableCell>
+                        <Typography variant={fontSize}>
+                          {battle.player2}
+                        </Typography>
+                      </TableCell>
+                      {/* Número de Torres Destruídas - Jogador 2 */}
+                      <TableCell>
+                        <Typography variant={fontSize}>
+                          <HorizontalContainer
+                            style={{ justifyContent: 'flex-start' }}
+                          >
+                            {battle.player2TowersDestroyed}
+                            <img
+                              src="https://cdns3.royaleapi.com/cdn-cgi/image/w=64,h=64,format=auto/static/img/ui/crown-blue.png"
+                              width={iconWidth}
+                            />
+                          </HorizontalContainer>
+                        </Typography>
+                      </TableCell>
+                      {/* Vencedor */}
+                      <TableCell>
+                        <Typography variant={fontSize}>
+                          {battle.winner === 'player1'
+                            ? battle.player1
+                            : battle.player2}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                    {/* Linha secundária - escondida */}
+                    <TableRow>
+                      <TableCell
+                        style={{ paddingBottom: 0, paddingTop: 0 }}
+                        colSpan={6}
+                      >
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                          <HorizontalContainer style={{ flexWrap: 'nowrap' }}>
+                            <DeckList deckList={battle.player1Deck} />
+                            <img src="https://cdn.royaleapi.com/static/img/ui/battle.png?t=0c9253cbc" />
+                            <DeckList deckList={battle.player2Deck} />
+                          </HorizontalContainer>
+                        </Collapse>
+                      </TableCell>
+                    </TableRow>
+                  </>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          {/* Paginação */}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component={Paper}
