@@ -1,21 +1,19 @@
 import PropTypes from 'prop-types';
-import { Card, CardContent, Typography, CircularProgress } from '@mui/material';
-import { VerticalContainer } from '../../config/GlobalStyle';
+import { Card, CardContent, Typography } from '@mui/material';
+import LoadingProgress from '../Loading/LoadingProgress';
 
-function DashboardWindow({ title, quantity, isLoading }) {
+function DashboardWindow({ title, quantity = 0, isLoading }) {
   return (
     <Card sx={{ minWidth: 275 }}>
       {isLoading ? (
-        <VerticalContainer style={{ padding: '2rem' }}>
-          <CircularProgress />
-        </VerticalContainer>
+        <LoadingProgress />
       ) : (
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
             {title}
           </Typography>
           <Typography variant="h5" component="div">
-            {quantity ?? 0}
+            {quantity}
           </Typography>
         </CardContent>
       )}
@@ -25,8 +23,7 @@ function DashboardWindow({ title, quantity, isLoading }) {
 
 DashboardWindow.propTypes = {
   title: PropTypes.string.isRequired,
-  quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
+  quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isLoading: PropTypes.bool.isRequired
 };
 

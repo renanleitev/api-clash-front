@@ -15,7 +15,7 @@ Input.propTypes = {
   keyName: PropTypes.string.isRequired,
   keyType: PropTypes.string,
   data: PropTypes.objectOf(
-    PropTypes.oneOf([
+    PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
       PropTypes.instanceOf(Date)
@@ -26,20 +26,14 @@ Input.propTypes = {
   inputWidth: PropTypes.number
 };
 
-Input.defaultProps = {
-  disabled: false,
-  keyType: InputType.TEXT,
-  inputWidth: 512
-};
-
 function Input({
   label,
   keyName,
-  keyType,
+  keyType = InputType.TEXT,
   data,
   setData,
-  disabled,
-  inputWidth
+  disabled = false,
+  inputWidth = 512
 }) {
   const handleInput = useCallback(
     (e) => {
