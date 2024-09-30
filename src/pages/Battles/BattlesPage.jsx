@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import {
+  Card,
+  CardContent,
   Collapse,
   IconButton,
   TableContainer,
@@ -21,11 +23,15 @@ import {
 import { getPlayersData } from '../../services/axios';
 import LoadingProgress from '../../components/Loading/LoadingProgress';
 import DeckList from '../../components/Deck/DeckList';
+import Input from '../../components/Input/Input';
 
 export default function BattlesPage() {
   const [battlesData, setBattlesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [player, setPlayer] = useState({
+    name: ''
+  });
 
   // Para procurar todos as batalhas ao carregar a página
   const fetchAllBattlesData = async () => {
@@ -38,6 +44,21 @@ export default function BattlesPage() {
   useEffect(() => {
     fetchAllBattlesData();
   }, []);
+
+  useEffect(() => {
+    const fetchPlayerData = async () => {
+      // Pesquisa apenas se o usuário tiver digitado um nome
+      if (player.name !== '') {
+        setIsLoading(true);
+        const responsePlayers = await getPlayersData(`battles/${player?.name}`);
+        setBattlesData(responsePlayers);
+        setIsLoading(false);
+      } else {
+        fetchAllBattlesData();
+      }
+    };
+    fetchPlayerData();
+  }, [player]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -65,6 +86,17 @@ export default function BattlesPage() {
 
   return (
     <VerticalContainer style={{ padding: '4rem' }}>
+      {/* Input (Pesquisar Jogador pelo nome) */}
+      <Card>
+        <CardContent>
+          <Input
+            data={player}
+            setData={setPlayer}
+            keyName="name"
+            label="Nome do Jogador"
+          />
+        </CardContent>
+      </Card>
       {isLoading ? (
         <LoadingProgress />
       ) : (
