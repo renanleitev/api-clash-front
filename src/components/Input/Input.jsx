@@ -45,17 +45,17 @@ function Input({
     [data, keyName, setData]
   );
 
-  const isError = () => {
-    if (typeof data[keyName] === 'string' && data[keyName] === '') {
-      return true;
-    }
-    if (typeof data[keyName] === 'number' && data[keyName] === 0) {
-      return true;
-    }
-    return false;
-  };
-  const error = isError();
-  const errorText = `${label} não pode ser vazio`;
+  // const isError = () => {
+  //   if (typeof data[keyName] === 'string' && data[keyName] === '') {
+  //     return true;
+  //   }
+  //   if (typeof data[keyName] === 'number' && data[keyName] === 0) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+  // const error = isError();
+  // const errorText = `${label} não pode ser vazio`;
 
   return (
     <TextField
@@ -77,8 +77,8 @@ function Input({
       fullWidth
       sx={{ width: inputWidth }}
       // Error text
-      error={error}
-      helperText={error && errorText}
+      // error={error}
+      // helperText={error && errorText}
     />
   );
 }
