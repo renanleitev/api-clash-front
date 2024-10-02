@@ -18,7 +18,8 @@ Input.propTypes = {
     PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.instanceOf(Date)
+      PropTypes.instanceOf(Date),
+      PropTypes.object
     ])
   ).isRequired,
   setData: PropTypes.func.isRequired,

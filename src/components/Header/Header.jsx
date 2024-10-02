@@ -30,7 +30,7 @@ function Header() {
       <Link to="/">Dashboard</Link>
       <Link to="/players">Jogadores</Link>
       <Link to="/battles">Batalhas</Link>
-      <Link to="/battles">Consultas</Link>
+      <Link to="/queries">Consultas</Link>
     </Nav>
   );
 }
