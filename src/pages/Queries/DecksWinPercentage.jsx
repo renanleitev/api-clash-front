@@ -23,7 +23,7 @@ import DeckChart from '../../components/Deck/DeckChart';
 import DeckDate from '../../components/Deck/DeckDate';
 import DeckStatus from '../../components/Deck/DeckStatus';
 import { getBattlesData } from '../../services/axios';
-import convertObjectToArray from '../../hooks/convertObjectToArray';
+import convertObjectToArray from '../../utils/convertObjectToArray';
 
 export default function DecksWinPercentage() {
   const defaultQuery = {
@@ -116,7 +116,7 @@ export default function DecksWinPercentage() {
                   onChange={handleTabChange}
                   aria-label="basic tabs example"
                 >
-                  <Tab label="Decks" />
+                  <Tab label="Deck" />
                   <Tab label="Estatísticas" />
                 </Tabs>
                 {tab === 0 ? (
