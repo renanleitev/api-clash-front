@@ -12,6 +12,7 @@ import {
   HorizontalContainer
 } from '../../config/GlobalStyle';
 import WinLossPercentage from './WinLossPercentage';
+import DecksWinPercentage from './DecksWinPercentage';
 import * as colors from '../../config/colors';
 
 const QUERY = {
@@ -28,6 +29,8 @@ RenderQuery.propTypes = {
 
 function RenderQuery({ query }) {
   switch (query) {
+    case QUERY.DecksWinPercentage:
+      return <DecksWinPercentage />;
     case QUERY.WinLossPercentage:
     default:
       return <WinLossPercentage />;
