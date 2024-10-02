@@ -25,8 +25,9 @@ import DeckStatus from '../../components/Deck/DeckStatus';
 import { getBattlesData } from '../../services/axios';
 import convertObjectToArray from '../../utils/convertObjectToArray';
 
-export default function DecksWinPercentage() {
+export default function CombosWinsPercentage() {
   const defaultQuery = {
+    deckSize: 0,
     winPercentage: 0,
     startDate: dayjs('2024-09-01'), // Para fins de consulta, definindo para o começo do mês de setembro
     endDate: dayjs('2024-09-30') // Para fins de consulta, definindo para o final do mês de setembro
@@ -52,14 +53,16 @@ export default function DecksWinPercentage() {
   };
 
   async function getData() {
-    const { winPercentage, startDate, endDate } = query;
+    const { deckSize, winPercentage, startDate, endDate } = query;
     if (winPercentage > 100) {
       toast.error('Porcentagem acima de 100%!');
+    } else if (deckSize === 0) {
+      toast.error('Tamanho do deck inválido!');
     } else {
       setIsLoading(true);
       const startTime = dayjs(startDate).toISOString();
       const endTime = dayjs(endDate).toISOString();
-      const url = `decks-win-percentage?winPercentage=${winPercentage}&startTime=${startTime}&endTime=${endTime}`;
+      const url = `combos-wins-percentage?deckSize=${deckSize}&winPercentage=${winPercentage}&startTime=${startTime}&endTime=${endTime}`;
       const result = await getBattlesData(url);
       if (result?.length === 0) {
         toast.error('Não foi possível encontrar dados');
@@ -76,6 +79,13 @@ export default function DecksWinPercentage() {
     <VerticalContainer>
       {data?.length === 0 ? (
         <>
+          <Input
+            data={query}
+            setData={setQuery}
+            keyName="deckSize"
+            label="Tamanho do Deck"
+            keyType="number"
+          />
           <Input
             data={query}
             setData={setQuery}
@@ -133,9 +143,9 @@ export default function DecksWinPercentage() {
                         endDate={query.endDate}
                       />
                       <DeckStatus
-                        wins={item?.won}
-                        losses={item?.played - item?.won}
-                        total={item?.played}
+                        wins={item?.victories}
+                        losses={item?.total - item?.victories}
+                        total={item?.total}
                       />
                     </HorizontalContainer>
                   </VerticalContainer>

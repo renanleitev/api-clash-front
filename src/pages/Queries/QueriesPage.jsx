@@ -15,6 +15,7 @@ import WinLossPercentage from './WinLossPercentage';
 import DecksWinPercentage from './DecksWinPercentage';
 import DefeatsByCardCombo from './DefeatsByCardCombo';
 import WinsByCardAndTrophies from './WinsByCardAndTrophies';
+import CombosWinsPercentage from './CombosWinsPercentage';
 import * as colors from '../../config/colors';
 
 const QUERY = {
@@ -31,6 +32,8 @@ RenderQuery.propTypes = {
 
 function RenderQuery({ query }) {
   switch (query) {
+    case QUERY.CombosWinsPercentage:
+      return <CombosWinsPercentage />;
     case QUERY.WinsByCardAndTrophies:
       return <WinsByCardAndTrophies />;
     case QUERY.DefeatsByCardCombo:
