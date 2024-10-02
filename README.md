@@ -37,9 +37,9 @@ Depois, execute o comando abaixo para iniciar o projeto:
 
     npm start
 
-Em seguida, abra o seu navegador e vá até `localhost:5173` para visualizar o projeto:
+Em seguida, abra o seu navegador e vá até `localhost:9090` para visualizar o projeto:
 
-    localhost:5173
+    localhost:9090
 
 Para formatar o código:
 
