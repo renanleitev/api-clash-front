@@ -38,8 +38,6 @@ export default function DefeatsByCardCombo() {
       // Arrows, Bats, Goblin Gang, Miner, Mortar, Skeleton Dragons, Skeleton King, The Log
       const url = `defeats-by-card-combo?cardCombo=${combo}&startTime=${startTime}&endTime=${endTime}`;
       const result = await getBattlesData(url);
-      console.log(result);
-      setData(result);
       if (result?.defeats === undefined) {
         toast.error('Não foi possível encontrar dados');
         setIsLoading(false);
