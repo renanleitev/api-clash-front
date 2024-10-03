@@ -7,6 +7,15 @@ Projeto Clash Royale para exibir estatísticas e dados de jogadores e batalhas d
 - NodeJS
 - Npm
 
+## Ferramentas 
+
+- React
+- Axios
+- DayJS
+- PropTypes
+- Styled Components
+- Material UI
+
 ## Iniciando o projeto
 
 ### Back-end:
